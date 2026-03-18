@@ -1,0 +1,2171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Travental – Self Drive Car Rentals Chennai</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --yellow: #F5C518;
+    --dark: #0A0A0A;
+    --card: #141414;
+    --card2: #1C1C1C;
+    --text: #F0EDE8;
+    --muted: #888;
+    --accent: #FF6B35;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--dark);
+    color: var(--text);
+    font-family: 'Outfit', sans-serif;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom Cursor */
+  .cursor {
+    width: 12px; height: 12px;
+    background: var(--yellow);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.1s;
+    mix-blend-mode: difference;
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 2px solid var(--yellow);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9998;
+    transition: all 0.15s ease;
+    mix-blend-mode: difference;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 1000;
+    padding: 1.2rem 4rem;
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(10,10,10,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(245,197,24,0.1);
+  }
+  .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    letter-spacing: 4px;
+    color: var(--yellow);
+    text-shadow: 0 0 30px rgba(245,197,24,0.4);
+  }
+  .logo span { color: var(--text); }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: color 0.3s;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute; bottom: -4px; left: 0;
+    width: 0; height: 2px;
+    background: var(--yellow);
+    transition: width 0.3s;
+  }
+  .nav-links a:hover { color: var(--yellow); }
+  .nav-links a:hover::after { width: 100%; }
+  .nav-cta {
+    background: var(--yellow);
+    color: var(--dark);
+    padding: 0.6rem 1.6rem;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-decoration: none;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: all 0.3s;
+  }
+  .nav-cta:hover { background: var(--accent); color: #fff; transform: scale(1.05); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    position: relative;
+    overflow: hidden;
+    padding: 0 4rem;
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 70% 50%, rgba(245,197,24,0.08) 0%, transparent 70%),
+                radial-gradient(ellipse 40% 40% at 20% 80%, rgba(255,107,53,0.06) 0%, transparent 60%);
+  }
+
+  .grid-lines {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(rgba(245,197,24,0.03) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(245,197,24,0.03) 1px, transparent 1px);
+    background-size: 80px 80px;
+  }
+
+  .hero-content { position: relative; z-index: 2; max-width: 680px; }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: rgba(245,197,24,0.1);
+    border: 1px solid rgba(245,197,24,0.3);
+    padding: 0.4rem 1rem;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--yellow);
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.8s ease forwards;
+  }
+  .badge-dot {
+    width: 6px; height: 6px;
+    background: var(--yellow);
+    border-radius: 50%;
+    animation: pulse 1.5s infinite;
+  }
+
+  @keyframes pulse {
+    0%,100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.5); opacity: 0.5; }
+  }
+
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(4rem, 8vw, 7rem);
+    line-height: 0.95;
+    letter-spacing: 2px;
+    animation: fadeUp 0.8s 0.15s ease both;
+  }
+  .hero h1 .outline {
+    -webkit-text-stroke: 2px var(--yellow);
+    color: transparent;
+  }
+  .hero h1 .yellow { color: var(--yellow); }
+
+  .hero-sub {
+    margin: 1.5rem 0 2.5rem;
+    font-size: 1.15rem;
+    color: var(--muted);
+    line-height: 1.7;
+    font-weight: 300;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+
+  .hero-price {
+    display: inline-flex; align-items: baseline; gap: 0.3rem;
+    background: rgba(245,197,24,0.12);
+    border: 1px solid rgba(245,197,24,0.4);
+    padding: 0.6rem 1.4rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    animation: fadeUp 0.8s 0.4s ease both;
+  }
+  .hero-price .amount {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.5rem;
+    color: var(--yellow);
+    line-height: 1;
+  }
+  .hero-price .unit { font-size: 0.9rem; color: var(--muted); }
+
+  .hero-btns {
+    display: flex; gap: 1rem; flex-wrap: wrap;
+    animation: fadeUp 0.8s 0.5s ease both;
+  }
+  .btn-primary {
+    background: var(--yellow);
+    color: var(--dark);
+    padding: 0.9rem 2.2rem;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-decoration: none;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: all 0.3s;
+    position: relative; overflow: hidden;
+  }
+  .btn-primary::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: var(--accent);
+    transform: scaleX(0); transform-origin: right;
+    transition: transform 0.4s ease;
+    z-index: 0;
+  }
+  .btn-primary:hover::before { transform: scaleX(1); transform-origin: left; }
+  .btn-primary span { position: relative; z-index: 1; }
+  .btn-primary:hover { color: #fff; transform: translateY(-3px); box-shadow: 0 15px 30px rgba(245,197,24,0.3); }
+
+  .btn-outline {
+    border: 2px solid rgba(245,197,24,0.4);
+    color: var(--text);
+    padding: 0.9rem 2.2rem;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: all 0.3s;
+  }
+  .btn-outline:hover { border-color: var(--yellow); color: var(--yellow); transform: translateY(-3px); }
+
+  /* Floating car SVG */
+  /* HERO CAR CANVAS */
+  .hero-car-wrap {
+    position: absolute;
+    right: -2rem; top: 50%;
+    transform: translateY(-50%);
+    width: 58%;
+    opacity: 0;
+    animation: fadeRight 1s 0.4s ease forwards;
+  }
+  #heroCarCanvas {
+    width: 100%;
+    height: auto;
+    display: block;
+    filter: drop-shadow(0 30px 70px rgba(245,197,24,0.22));
+  }
+  @keyframes fadeRight {
+    from { opacity:0; transform: translateY(-50%) translateX(80px); }
+    to   { opacity:1; transform: translateY(-50%) translateX(0); }
+  }
+  @keyframes fadeUp { from { opacity:0; transform: translateY(30px); } to { opacity:1; transform: translateY(0); } }
+
+  /* STATS BAR */
+  .stats-bar {
+    background: var(--yellow);
+    padding: 1.5rem 4rem;
+    display: flex; justify-content: space-around; align-items: center;
+    flex-wrap: wrap; gap: 1rem;
+  }
+  .stat { text-align: center; }
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.2rem;
+    color: var(--dark);
+    line-height: 1;
+  }
+  .stat-label { font-size: 0.75rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: rgba(10,10,10,0.6); }
+  .stat-divider { width: 1px; height: 40px; background: rgba(10,10,10,0.2); }
+
+  /* SECTIONS */
+  section { padding: 6rem 4rem; }
+
+  .section-tag {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--yellow);
+    margin-bottom: 0.5rem;
+  }
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 4vw, 4rem);
+    letter-spacing: 2px;
+    line-height: 1;
+    margin-bottom: 1rem;
+  }
+  .section-sub { color: var(--muted); font-size: 1rem; max-width: 500px; line-height: 1.7; }
+
+  /* CARS */
+  .cars-section { background: #0D0D0D; }
+  .cars-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3rem; flex-wrap: wrap; gap: 1rem; }
+
+  .cars-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 1.5rem; }
+
+  .car-card {
+    background: var(--card);
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.05);
+    transition: all 0.4s ease;
+    position: relative;
+    group: true;
+  }
+  .car-card::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(245,197,24,0.05) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+  .car-card:hover { transform: translateY(-8px); border-color: rgba(245,197,24,0.3); box-shadow: 0 30px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(245,197,24,0.1); }
+  .car-card:hover::before { opacity: 1; }
+
+  .car-img-wrap {
+    height: 200px;
+    background: linear-gradient(135deg, #181818 0%, #222 100%);
+    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+    padding: 1.5rem;
+  }
+  .car-type-badge {
+    position: absolute; top: 1rem; left: 1rem;
+    background: var(--yellow);
+    color: var(--dark);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 0.3rem 0.8rem;
+    border-radius: 50px;
+  }
+
+  .car-svg { width: 100%; max-width: 280px; transition: transform 0.4s; }
+  .car-card:hover .car-svg { transform: scale(1.05) translateX(-5px); }
+
+  .car-info { padding: 1.5rem; }
+  .car-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    letter-spacing: 1px;
+    margin-bottom: 0.3rem;
+  }
+  .car-desc { color: var(--muted); font-size: 0.85rem; margin-bottom: 1.2rem; }
+  .car-features {
+    display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem;
+  }
+  .feat {
+    display: flex; align-items: center; gap: 0.4rem;
+    font-size: 0.8rem; color: var(--muted);
+  }
+  .feat-icon { color: var(--yellow); font-size: 1rem; }
+  .car-bottom { display: flex; align-items: center; justify-content: space-between; }
+  .car-price { display: flex; align-items: baseline; gap: 0.3rem; }
+  .car-price .num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    color: var(--yellow);
+  }
+  .car-price .per { font-size: 0.8rem; color: var(--muted); }
+  .book-btn {
+    background: transparent;
+    border: 2px solid rgba(245,197,24,0.3);
+    color: var(--yellow);
+    padding: 0.5rem 1.2rem;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .book-btn:hover { background: var(--yellow); color: var(--dark); border-color: var(--yellow); }
+
+  /* HOW IT WORKS - ROAD ANIMATION */
+  .how-section {
+    position: relative;
+    overflow: hidden;
+    background: #080808;
+    padding-bottom: 4rem;
+  }
+  .road-scene { position: relative; width: 100%; margin-top: 3.5rem; }
+  .road-track {
+    position: relative;
+    height: 80px;
+    background: #1c1c1c;
+    border-top: 4px solid #2d2d2d;
+    border-bottom: 4px solid #2d2d2d;
+    overflow: visible;
+    z-index: 2;
+  }
+  .road-track::before {
+    content: '';
+    position: absolute;
+    top: 50%; transform: translateY(-50%);
+    left: 0; right: 0; height: 4px;
+    background: repeating-linear-gradient(90deg, rgba(245,197,24,0.7) 0 60px, transparent 60px 120px);
+  }
+  .road-dashes {
+    position: absolute;
+    top: 50%; transform: translateY(-50%);
+    width: 200%; height: 4px;
+    background: repeating-linear-gradient(90deg, rgba(245,197,24,0.5) 0 50px, transparent 50px 110px);
+    animation: dashMove 1s linear infinite;
+  }
+  @keyframes dashMove {
+    from { transform: translateY(-50%) translateX(0); }
+    to   { transform: translateY(-50%) translateX(-110px); }
+  }
+  .road-edge-top {
+    height: 16px;
+    background: linear-gradient(180deg, #333 0%, #252525 100%);
+    border-bottom: 2px solid #444;
+  }
+  .road-edge-bottom {
+    height: 16px;
+    background: linear-gradient(0deg, #333 0%, #252525 100%);
+    border-top: 2px solid #444;
+  }
+  .road-car {
+    position: absolute;
+    top: 50%; transform: translateY(-65%);
+    left: -130px;
+    width: 110px;
+    z-index: 10;
+    transition: left 0.9s cubic-bezier(0.45, 0, 0.2, 1);
+    filter: drop-shadow(0 6px 18px rgba(245,197,24,0.35));
+  }
+  .road-car.braking { transition: left 0.5s cubic-bezier(0.8, 0, 1, 1); }
+  .wheel-spin {
+    animation: wheelSpin 0.3s linear infinite;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+  .wheel-spin.slow { animation-duration: 0.8s; }
+  .wheel-spin.stopped { animation: none; }
+  @keyframes wheelSpin { to { transform: rotate(360deg); } }
+  .exhaust-wrap {
+    position: absolute;
+    top: 50%; right: calc(100% + 2px);
+    transform: translateY(-50%);
+    pointer-events: none;
+    overflow: visible;
+  }
+  .puff {
+    width: 9px; height: 9px; border-radius: 50%;
+    background: rgba(180,180,180,0.18);
+    position: absolute; top: 0; left: 0;
+    animation: puffOut 0.9s ease-out infinite;
+  }
+  .puff:nth-child(2) { animation-delay: 0.3s; }
+  .puff:nth-child(3) { animation-delay: 0.6s; }
+  @keyframes puffOut {
+    0%   { transform: translate(0,0) scale(0.3); opacity: 0.6; }
+    100% { transform: translate(-32px,-12px) scale(2); opacity: 0; }
+  }
+  /* Stops row */
+  .stops-row {
+    display: flex;
+    position: relative;
+    padding: 0 2%;
+  }
+  .stop-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    opacity: 0;
+    transform: translateY(-16px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+  }
+  .stop-item.active { opacity: 1; transform: translateY(0); }
+  .stop-connector {
+    width: 2px; height: 36px;
+    background: linear-gradient(to bottom, rgba(245,197,24,0.7), rgba(245,197,24,0.05));
+    transform-origin: top; transform: scaleY(0);
+    transition: transform 0.35s ease 0.25s;
+  }
+  .stop-item.active .stop-connector { transform: scaleY(1); }
+  .stop-dot {
+    width: 14px; height: 14px; border-radius: 50%;
+    border: 3px solid rgba(100,100,100,0.5);
+    background: #1c1c1c;
+    position: absolute; bottom: -7px; left: 50%;
+    transform: translateX(-50%);
+    transition: all 0.3s;
+    z-index: 5;
+  }
+  .stop-item.active .stop-dot {
+    border-color: var(--yellow);
+    background: var(--yellow);
+    box-shadow: 0 0 0 5px rgba(245,197,24,0.18), 0 0 16px rgba(245,197,24,0.45);
+  }
+  .step-card {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 1.5rem 1.2rem;
+    border: 1px solid rgba(255,255,255,0.04);
+    width: calc(100% - 1rem);
+    max-width: 220px;
+    text-align: center;
+    position: relative;
+    margin-bottom: 0.8rem;
+    transition: border-color 0.4s, box-shadow 0.4s, transform 0.4s;
+  }
+  .stop-item.active .step-card {
+    border-color: rgba(245,197,24,0.3);
+    box-shadow: 0 10px 35px rgba(0,0,0,0.6), 0 0 20px rgba(245,197,24,0.08);
+    transform: translateY(-3px);
+  }
+  .step-card-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.85rem; letter-spacing: 3px;
+    color: var(--yellow); opacity: 0.6;
+    margin-bottom: 0.3rem;
+  }
+  .step-card-icon {
+    font-size: 1.9rem;
+    display: block; margin-bottom: 0.5rem;
+    filter: grayscale(1) brightness(0.5);
+    transition: filter 0.5s;
+  }
+  .stop-item.active .step-card-icon { filter: grayscale(0) brightness(1); }
+  .step-card h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.3rem; }
+  .step-card p { font-size: 0.76rem; color: var(--muted); line-height: 1.5; }
+  @media (max-width:700px) {
+    .step-card { max-width: 100%; padding: 1rem 0.7rem; }
+    .step-card p { display: none; }
+    .road-car { width: 80px; }
+  }
+
+  /* PRICING */
+  .pricing-section { background: #0D0D0D; }
+  .pricing-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 3rem; }
+
+  .price-card {
+    background: var(--card2);
+    border-radius: 20px;
+    padding: 2.5rem;
+    border: 1px solid rgba(255,255,255,0.05);
+    transition: all 0.4s;
+    position: relative; overflow: hidden;
+  }
+  .price-card.featured {
+    border-color: rgba(245,197,24,0.4);
+    background: linear-gradient(135deg, rgba(245,197,24,0.08) 0%, var(--card2) 60%);
+  }
+  .price-card.featured::before {
+    content: 'POPULAR';
+    position: absolute; top: 1.5rem; right: 1.5rem;
+    background: var(--yellow);
+    color: var(--dark);
+    font-size: 0.65rem; font-weight: 700; letter-spacing: 2px;
+    padding: 0.2rem 0.6rem; border-radius: 50px;
+  }
+  .price-card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+
+  .price-seater { font-size: 0.8rem; letter-spacing: 3px; text-transform: uppercase; color: var(--yellow); margin-bottom: 0.5rem; }
+  .price-name { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; margin-bottom: 1.5rem; }
+  .price-amount { display: flex; align-items: baseline; gap: 0.3rem; margin-bottom: 2rem; }
+  .price-amount .big { font-family: 'Bebas Neue', sans-serif; font-size: 3.5rem; color: var(--yellow); line-height: 1; }
+  .price-amount .sm { color: var(--muted); font-size: 0.9rem; }
+  .price-features { list-style: none; margin-bottom: 2rem; display: flex; flex-direction: column; gap: 0.8rem; }
+  .price-features li { font-size: 0.9rem; color: var(--muted); display: flex; align-items: center; gap: 0.6rem; }
+  .price-features li::before { content: '✓'; color: var(--yellow); font-weight: 700; flex-shrink: 0; }
+  .price-btn {
+    display: block;
+    text-align: center;
+    padding: 0.85rem;
+    border-radius: 12px;
+    font-weight: 700; font-size: 0.9rem;
+    letter-spacing: 1px; text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.3s;
+    cursor: pointer; border: none;
+    width: 100%;
+  }
+  .price-btn.solid { background: var(--yellow); color: var(--dark); }
+  .price-btn.solid:hover { background: var(--accent); color: #fff; }
+  .price-btn.ghost { background: transparent; color: var(--yellow); border: 2px solid rgba(245,197,24,0.3); }
+  .price-btn.ghost:hover { background: rgba(245,197,24,0.1); }
+
+  /* LOCATION */
+  .location-section { background: var(--dark); }
+  .location-inner {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
+  }
+  .location-map {
+    border-radius: 20px; overflow: hidden;
+    border: 1px solid rgba(245,197,24,0.2);
+    height: 380px;
+    background: #141414;
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .map-inner {
+    width: 100%; height: 100%;
+    position: relative;
+    background: linear-gradient(135deg, #141414 0%, #1a1a1a 100%);
+    overflow: hidden;
+  }
+  .map-grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(rgba(245,197,24,0.05) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(245,197,24,0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+  .map-pin {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+  }
+  .pin-dot {
+    width: 20px; height: 20px;
+    background: var(--yellow);
+    border-radius: 50%;
+    margin: 0 auto 0.5rem;
+    box-shadow: 0 0 0 6px rgba(245,197,24,0.2), 0 0 0 12px rgba(245,197,24,0.1);
+    animation: ping 2s infinite;
+  }
+  @keyframes ping {
+    0%,100% { box-shadow: 0 0 0 6px rgba(245,197,24,0.2), 0 0 0 12px rgba(245,197,24,0.1); }
+    50% { box-shadow: 0 0 0 10px rgba(245,197,24,0.15), 0 0 0 22px rgba(245,197,24,0.05); }
+  }
+  .map-label { font-weight: 700; font-size: 1rem; }
+  .map-sublabel { font-size: 0.8rem; color: var(--muted); }
+
+  .location-info { }
+  .location-info .section-title { margin-bottom: 1.5rem; }
+  .location-details { display: flex; flex-direction: column; gap: 1.2rem; margin-top: 2rem; }
+  .loc-item { display: flex; align-items: flex-start; gap: 1rem; }
+  .loc-icon {
+    width: 44px; height: 44px; flex-shrink: 0;
+    background: rgba(245,197,24,0.1);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem;
+  }
+  .loc-text h4 { font-weight: 600; margin-bottom: 0.2rem; }
+  .loc-text p { font-size: 0.85rem; color: var(--muted); }
+
+  /* TESTIMONIALS */
+
+  /* TESTIMONIALS SLIDESHOW */
+  .testimonials {
+    background: #0D0D0D;
+    padding: 6rem 0;
+    overflow: hidden;
+    position: relative;
+  }
+  .testimonials::before,
+  .testimonials::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    filter: blur(90px);
+  }
+  .testimonials::before {
+    width: 400px; height: 400px;
+    background: rgba(245,197,24,0.05);
+    top: -80px; left: -100px;
+  }
+  .testimonials::after {
+    width: 350px; height: 350px;
+    background: rgba(255,107,53,0.04);
+    bottom: -60px; right: -80px;
+  }
+
+  .test-header {
+    text-align: center;
+    padding: 0 2rem;
+    margin-bottom: 3.5rem;
+    position: relative;
+  }
+  .test-header::before {
+    content: '\201C';
+    position: absolute;
+    top: -2rem; left: 50%;
+    transform: translateX(-50%);
+    font-family: Georgia, serif;
+    font-size: 16rem;
+    color: rgba(245,197,24,0.03);
+    line-height: 1;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .test-overall {
+    display: inline-flex; align-items: center; gap: 1rem;
+    background: rgba(245,197,24,0.08);
+    border: 1px solid rgba(245,197,24,0.2);
+    border-radius: 50px;
+    padding: 0.45rem 1.3rem;
+    margin-bottom: 1rem;
+  }
+  .test-overall-stars { color: var(--yellow); font-size: 0.9rem; letter-spacing: 2px; }
+  .test-overall-label { font-size: 0.78rem; color: var(--muted); font-weight: 500; }
+
+  /* Slider */
+  .slider-outer {
+    position: relative;
+    padding: 0 4rem;
+  }
+  .slider-track-wrap {
+    overflow: hidden;
+    cursor: grab;
+    user-select: none;
+  }
+  .slider-track-wrap:active { cursor: grabbing; }
+  .slider-track {
+    display: flex;
+    gap: 1.5rem;
+    transition: transform 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+  }
+
+  /* Cards */
+  .tcard {
+    flex: 0 0 calc(33.333% - 1rem);
+    min-width: 0;
+    background: #111;
+    border-radius: 24px;
+    padding: 2.2rem;
+    border: 1px solid rgba(255,255,255,0.05);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.5s ease;
+    transform: scale(0.96);
+    opacity: 0.5;
+  }
+  .tcard.center {
+    transform: scale(1.03);
+    opacity: 1;
+    border-color: rgba(245,197,24,0.3);
+    box-shadow: 0 25px 60px rgba(0,0,0,0.6), 0 0 40px rgba(245,197,24,0.07);
+    background: #141414;
+  }
+  .tcard::before {
+    content: '';
+    position: absolute; top: 0; right: 0;
+    width: 80px; height: 80px;
+    background: radial-gradient(circle at top right, rgba(245,197,24,0.1), transparent 70%);
+    pointer-events: none;
+    transition: background 0.5s;
+  }
+  .tcard.center::before {
+    background: radial-gradient(circle at top right, rgba(245,197,24,0.22), transparent 70%);
+  }
+
+  /* Quote mark */
+  .tcard-quote {
+    font-size: 3.5rem;
+    line-height: 1;
+    color: var(--yellow);
+    opacity: 0.2;
+    font-family: Georgia, serif;
+    margin-bottom: -0.4rem;
+    display: block;
+    transition: opacity 0.5s;
+  }
+  .tcard.center .tcard-quote { opacity: 0.65; }
+
+  /* Stars */
+  .tcard-stars { display: flex; gap: 3px; margin-bottom: 1.3rem; }
+  .star {
+    width: 15px; height: 15px;
+    background: var(--yellow);
+    clip-path: polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);
+    opacity: 0.25;
+    transition: opacity 0.4s, transform 0.4s;
+  }
+  .tcard.center .star { opacity: 1; }
+  .tcard.center .star:nth-child(1) { transition-delay: 0s;    transform: scale(1.15); }
+  .tcard.center .star:nth-child(2) { transition-delay: 0.06s; transform: scale(1.15); }
+  .tcard.center .star:nth-child(3) { transition-delay: 0.12s; transform: scale(1.15); }
+  .tcard.center .star:nth-child(4) { transition-delay: 0.18s; transform: scale(1.15); }
+  .tcard.center .star:nth-child(5) { transition-delay: 0.24s; transform: scale(1.15); }
+
+  .tcard-text {
+    font-size: 0.9rem;
+    color: #999;
+    line-height: 1.75;
+    margin-bottom: 1.8rem;
+    transition: color 0.5s;
+  }
+  .tcard.center .tcard-text { color: #e0e0e0; }
+
+  /* Tag */
+  .tcard-tag {
+    position: absolute; top: 1.4rem; right: 1.4rem;
+    background: rgba(245,197,24,0.1);
+    border: 1px solid rgba(245,197,24,0.2);
+    color: var(--yellow);
+    font-size: 0.62rem; letter-spacing: 2px;
+    text-transform: uppercase; font-weight: 700;
+    padding: 0.2rem 0.6rem; border-radius: 50px;
+    opacity: 0; transition: opacity 0.5s;
+  }
+  .tcard.center .tcard-tag { opacity: 1; }
+
+  /* Author */
+  .tcard-author {
+    display: flex; align-items: center; gap: 1rem;
+    padding-top: 1.2rem;
+    border-top: 1px solid rgba(255,255,255,0.05);
+  }
+  .tcard-avatar {
+    width: 46px; height: 46px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem; font-weight: 700;
+    background: linear-gradient(135deg, #2a2a2a, #1a1a1a);
+    color: var(--muted);
+    border: 2px solid rgba(255,255,255,0.06);
+    flex-shrink: 0;
+    transition: all 0.5s;
+    position: relative;
+  }
+  .tcard.center .tcard-avatar {
+    background: linear-gradient(135deg, var(--yellow), var(--accent));
+    color: var(--dark);
+    border-color: transparent;
+    box-shadow: 0 0 0 4px rgba(245,197,24,0.15), 0 6px 20px rgba(245,197,24,0.3);
+  }
+  /* Ripple on active avatar */
+  .tcard.center .tcard-avatar::after {
+    content: '';
+    position: absolute; inset: -5px;
+    border: 2px solid rgba(245,197,24,0.3);
+    border-radius: 50%;
+    animation: avatarRipple 1.8s ease-out infinite;
+  }
+  @keyframes avatarRipple {
+    0%   { inset: -2px; opacity: 0.7; }
+    100% { inset: -14px; opacity: 0; }
+  }
+  .tcard-name { font-weight: 700; font-size: 0.92rem; margin-bottom: 0.15rem; }
+  .tcard-loc { font-size: 0.73rem; color: var(--muted); display: flex; align-items: center; gap: 0.3rem; }
+  .tcard-loc::before { content: '📍'; font-size: 0.68rem; }
+
+  /* Arrows */
+  .slider-arrow {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    width: 48px; height: 48px;
+    background: rgba(245,197,24,0.08);
+    border: 1px solid rgba(245,197,24,0.2);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; color: var(--yellow); font-size: 1.1rem;
+    transition: all 0.3s; z-index: 10; user-select: none;
+  }
+  .slider-arrow:hover {
+    background: var(--yellow); color: var(--dark);
+    box-shadow: 0 8px 24px rgba(245,197,24,0.35);
+    transform: translateY(-50%) scale(1.1);
+  }
+  .slider-arrow.prev { left: 0; }
+  .slider-arrow.next { right: 0; }
+
+  /* Dots */
+  .slider-dots { display: flex; justify-content: center; gap: 0.5rem; margin-top: 2.5rem; }
+  .sdot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: rgba(245,197,24,0.2);
+    cursor: pointer; transition: all 0.35s; border: none; padding: 0;
+  }
+  .sdot.active { background: var(--yellow); width: 28px; border-radius: 4px; box-shadow: 0 0 10px rgba(245,197,24,0.4); }
+
+  /* Progress bar */
+  .slider-progress {
+    height: 2px; background: rgba(245,197,24,0.1);
+    margin: 1rem auto 0; max-width: 200px; border-radius: 2px; overflow: hidden;
+  }
+  .slider-progress-fill {
+    height: 100%; width: 0;
+    background: linear-gradient(90deg, var(--yellow), var(--accent));
+    border-radius: 2px; transition: width linear;
+  }
+
+  /* Ticker */
+  .test-ticker {
+    margin-top: 3rem; overflow: hidden;
+    border-top: 1px solid rgba(255,255,255,0.04);
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    padding: 0.9rem 0; background: rgba(245,197,24,0.02);
+  }
+  .ticker-inner { display: flex; gap: 3rem; animation: tickerScroll 20s linear infinite; width: max-content; }
+  .ticker-item { display: flex; align-items: center; gap: 0.5rem; white-space: nowrap; font-size: 0.78rem; color: var(--muted); font-weight: 500; letter-spacing: 1px; }
+  .ticker-item span { color: var(--yellow); }
+  @keyframes tickerScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  @media (max-width: 900px) {
+    .tcard { flex: 0 0 calc(80% - 0.75rem); }
+    .slider-outer { padding: 0 2.5rem; }
+  }
+  @media (max-width: 600px) {
+    .tcard { flex: 0 0 calc(92% - 0.75rem); }
+    .slider-outer { padding: 0 1.5rem; }
+  }
+
+  /* CTA */
+  .cta-section {
+    text-align: center;
+    background: linear-gradient(135deg, rgba(245,197,24,0.1) 0%, rgba(255,107,53,0.05) 100%);
+    border-top: 1px solid rgba(245,197,24,0.1);
+    border-bottom: 1px solid rgba(245,197,24,0.1);
+    position: relative; overflow: hidden;
+  }
+  .cta-section::before {
+    content: '';
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    width: 600px; height: 300px;
+    background: radial-gradient(ellipse, rgba(245,197,24,0.08), transparent);
+    pointer-events: none;
+  }
+  .cta-section .section-title { font-size: clamp(3rem, 5vw, 5rem); margin-bottom: 1rem; }
+  .cta-section .section-sub { margin: 0 auto 2.5rem; max-width: 500px; }
+  .cta-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+  /* FOOTER */
+  footer {
+    background: #060606;
+    padding: 4rem 4rem 2rem;
+    border-top: 1px solid rgba(255,255,255,0.05);
+  }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+  .footer-brand .logo { display: block; font-size: 2.5rem; margin-bottom: 1rem; }
+  .footer-brand p { font-size: 0.85rem; color: var(--muted); line-height: 1.7; max-width: 280px; }
+  .footer-col h4 { font-weight: 700; font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 1.2rem; color: var(--yellow); }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+  .footer-col ul li a { color: var(--muted); text-decoration: none; font-size: 0.85rem; transition: color 0.3s; }
+  .footer-col ul li a:hover { color: var(--text); }
+  .footer-bottom { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 2rem; flex-wrap: wrap; gap: 1rem; }
+  .footer-bottom p { font-size: 0.8rem; color: var(--muted); }
+
+  /* Whatsapp float */
+  .whatsapp-float {
+    position: fixed; bottom: 2rem; right: 2rem; z-index: 999;
+    background: #25D366;
+    color: #fff;
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem;
+    box-shadow: 0 8px 24px rgba(37,211,102,0.4);
+    text-decoration: none;
+    transition: all 0.3s;
+    animation: waBounce 3s ease-in-out infinite;
+  }
+  .whatsapp-float:hover { transform: scale(1.1); box-shadow: 0 12px 30px rgba(37,211,102,0.5); }
+  @keyframes waBounce {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+
+  /* scroll reveal */
+  .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    section { padding: 4rem 1.5rem; }
+    .hero { padding: 0 1.5rem; padding-top: 5rem; flex-direction: column; justify-content: center; }
+    .hero-car-wrap { position: relative; right: auto; top: auto; transform: none; width: 100%; max-width: 420px; margin: 2rem auto 0; animation: none; opacity: 1; }
+    .stats-bar { padding: 1.5rem; }
+    .stat-divider { display: none; }
+    .location-inner { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">TRAVE<span>NTAL</span></div>
+  <ul class="nav-links">
+    <li><a href="#cars">Fleet</a></li>
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#location">Location</a></li>
+  </ul>
+  <a href="tel:+91XXXXXXXXXX" class="nav-cta">Book Now</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="grid-lines"></div>
+
+  <div class="hero-content">
+    <div class="hero-badge"><span class="badge-dot"></span> Chennai's #1 Self Drive Rentals</div>
+    <h1>DRIVE<br><span class="outline">YOUR</span><br><span class="yellow">OWN WAY</span></h1>
+    <p class="hero-sub">Experience ultimate freedom with Travental's self-drive car rentals in Valasaravakkam, Chennai. No driver. No hassle. Just you and the open road.</p>
+    <div class="hero-price">
+      <span class="amount">₹15</span>
+      <span class="unit">/ km onwards &nbsp;•&nbsp; 5 & 7 Seater Available</span>
+    </div>
+    <div class="hero-btns">
+      <a href="#cars" class="btn-primary"><span>Explore Fleet</span></a>
+      <a href="#how" class="btn-outline">How It Works</a>
+    </div>
+  </div>
+
+  <!-- Animated Hero Car Canvas -->
+  <div class="hero-car-wrap">
+    <canvas id="heroCarCanvas" width="800" height="380"></canvas>
+  </div>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stat">
+    <div class="stat-num">500+</div>
+    <div class="stat-label">Happy Customers</div>
+  </div>
+  <div class="stat-divider"></div>
+  <div class="stat">
+    <div class="stat-num">₹15</div>
+    <div class="stat-label">Per Km Rate</div>
+  </div>
+  <div class="stat-divider"></div>
+  <div class="stat">
+    <div class="stat-num">5 & 7</div>
+    <div class="stat-label">Seater Options</div>
+  </div>
+  <div class="stat-divider"></div>
+  <div class="stat">
+    <div class="stat-num">24/7</div>
+    <div class="stat-label">Support</div>
+  </div>
+  <div class="stat-divider"></div>
+  <div class="stat">
+    <div class="stat-num">100%</div>
+    <div class="stat-label">Self Drive</div>
+  </div>
+</div>
+
+<!-- CARS SECTION -->
+<section class="cars-section" id="cars">
+  <div class="cars-header reveal">
+    <div>
+      <div class="section-tag">Our Fleet</div>
+      <div class="section-title">CHOOSE YOUR RIDE</div>
+      <p class="section-sub">Premium cars maintained to the highest standards for your comfort and safety.</p>
+    </div>
+  </div>
+  <div class="cars-grid">
+    <!-- 5 Seater Hatchback -->
+    <div class="car-card reveal">
+      <div class="car-img-wrap">
+        <span class="car-type-badge">5 Seater</span>
+        <svg class="car-svg" viewBox="0 0 300 140" fill="none">
+          <ellipse cx="150" cy="128" rx="120" ry="8" fill="rgba(245,197,24,0.15)"/>
+          <rect x="20" y="70" width="260" height="55" rx="10" fill="#222"/>
+          <path d="M75 70 Q90 30 130 22 L200 22 Q240 28 250 70Z" fill="#2a2a2a"/>
+          <path d="M105 65 Q115 38 145 30 L185 30 Q210 36 220 65Z" fill="rgba(245,197,24,0.1)" stroke="rgba(245,197,24,0.3)" stroke-width="1.5"/>
+          <rect x="205" y="78" width="52" height="10" rx="5" fill="#F5C518" opacity="0.9"/>
+          <rect x="43" y="78" width="20" height="10" rx="4" fill="#FF3333" opacity="0.8"/>
+          <circle cx="75" cy="125" r="22" fill="#111" stroke="#444" stroke-width="2"/>
+          <circle cx="75" cy="125" r="14" fill="#1a1a1a" stroke="rgba(245,197,24,0.5)" stroke-width="1.5"/>
+          <circle cx="75" cy="125" r="5" fill="#F5C518"/>
+          <circle cx="225" cy="125" r="22" fill="#111" stroke="#444" stroke-width="2"/>
+          <circle cx="225" cy="125" r="14" fill="#1a1a1a" stroke="rgba(245,197,24,0.5)" stroke-width="1.5"/>
+          <circle cx="225" cy="125" r="5" fill="#F5C518"/>
+          <line x1="150" y1="70" x2="150" y2="120" stroke="rgba(255,255,255,0.04)" stroke-width="2"/>
+          <rect x="20" y="88" width="260" height="3" rx="1.5" fill="rgba(245,197,24,0.4)"/>
+        </svg>
+      </div>
+      <div class="car-info">
+        <div class="car-name">Compact Hatchback</div>
+        <div class="car-desc">Perfect for city drives & family outings. Fuel efficient & easy to park.</div>
+        <div class="car-features">
+          <div class="feat"><span class="feat-icon">👥</span> 5 Seats</div>
+          <div class="feat"><span class="feat-icon">❄️</span> AC</div>
+          <div class="feat"><span class="feat-icon">⛽</span> Petrol</div>
+          <div class="feat"><span class="feat-icon">🎵</span> Music</div>
+        </div>
+        <div class="car-bottom">
+          <div class="car-price">
+            <span class="num">₹15</span>
+            <span class="per">/ km</span>
+          </div>
+          <button class="book-btn" onclick="alert('Call us to book: +91-XXXXXXXXXX')">Book Now</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5 Seater Sedan -->
+    <div class="car-card reveal">
+      <div class="car-img-wrap">
+        <span class="car-type-badge">5 Seater</span>
+        <svg class="car-svg" viewBox="0 0 300 140" fill="none">
+          <ellipse cx="150" cy="128" rx="120" ry="8" fill="rgba(245,197,24,0.15)"/>
+          <rect x="15" y="72" width="270" height="52" rx="10" fill="#222"/>
+          <path d="M70 72 Q90 28 140 18 L190 18 Q240 26 255 72Z" fill="#2a2a2a"/>
+          <path d="M100 67 Q112 36 148 26 L178 26 Q210 33 220 67Z" fill="rgba(245,197,24,0.1)" stroke="rgba(245,197,24,0.3)" stroke-width="1.5"/>
+          <rect x="140" y="20" width="60" height="47" rx="6" fill="rgba(245,197,24,0.07)" stroke="rgba(245,197,24,0.2)" stroke-width="1"/>
+          <rect x="255" y="78" width="22" height="14" rx="5" fill="#F5C518" opacity="0.9"/>
+          <rect x="18" y="81" width="18" height="11" rx="3" fill="#FF3333" opacity="0.8"/>
+          <circle cx="75" cy="124" r="22" fill="#111" stroke="#444" stroke-width="2"/>
+          <circle cx="75" cy="124" r="14" fill="#1a1a1a" stroke="rgba(245,197,24,0.5)" stroke-width="1.5"/>
+          <circle cx="75" cy="124" r="5" fill="#F5C518"/>
+          <circle cx="230" cy="124" r="22" fill="#111" stroke="#444" stroke-width="2"/>
+          <circle cx="230" cy="124" r="14" fill="#1a1a1a" stroke="rgba(245,197,24,0.5)" stroke-width="1.5"/>
+          <circle cx="230" cy="124" r="5" fill="#F5C518"/>
+          <rect x="15" y="86" width="270" height="3" rx="1.5" fill="rgba(245,197,24,0.4)"/>
+        </svg>
+      </div>
+      <div class="car-info">
+        <div class="car-name">Premium Sedan</div>
+        <div class="car-desc">Elegant & spacious for business trips, airport transfers & long drives.</div>
+        <div class="car-features">
+          <div class="feat"><span class="feat-icon">👥</span> 5 Seats</div>
+          <div class="feat"><span class="feat-icon">❄️</span> AC</div>
+          <div class="feat"><span class="feat-icon">🏎️</span> Automatic</div>
+          <div class="feat"><span class="feat-icon">📍</span> GPS</div>
+        </div>
+        <div class="car-bottom">
+          <div class="car-price">
+            <span class="num">₹15</span>
+            <span class="per">/ km</span>
+          </div>
+          <button class="book-btn" onclick="alert('Call us to book: +91-XXXXXXXXXX')">Book Now</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7 Seater SUV -->
+    <div class="car-card reveal">
+      <div class="car-img-wrap" style="background: linear-gradient(135deg, #181818 0%, #1a1a20 100%);">
+        <span class="car-type-badge" style="background:var(--accent);color:#fff;">7 Seater</span>
+        <svg class="car-svg" viewBox="0 0 320 155" fill="none">
+          <!-- SUV shape - taller, boxy, muscular -->
+          <ellipse cx="160" cy="142" rx="140" ry="9" fill="rgba(245,197,24,0.15)"/>
+          <!-- Main body - tall and boxy like a Fortuner/Innova Crysta SUV -->
+          <rect x="12" y="58" width="296" height="78" rx="10" fill="#1a1a1a"/>
+          <!-- Roof - flat wide SUV roof -->
+          <path d="M55 58 L65 14 L255 14 L268 58Z" fill="#242424"/>
+          <!-- Roof rails -->
+          <rect x="68" y="11" width="184" height="5" rx="2.5" fill="#333"/>
+          <rect x="80" y="11" width="4" height="5" rx="2" fill="#555"/>
+          <rect x="120" y="11" width="4" height="5" rx="2" fill="#555"/>
+          <rect x="160" y="11" width="4" height="5" rx="2" fill="#555"/>
+          <rect x="200" y="11" width="4" height="5" rx="2" fill="#555"/>
+          <rect x="236" y="11" width="4" height="5" rx="2" fill="#555"/>
+          <!-- Front windshield - upright SUV style -->
+          <path d="M210 55 L220 18 L254 18 L265 55Z" fill="rgba(245,197,24,0.09)" stroke="rgba(245,197,24,0.3)" stroke-width="1.5"/>
+          <!-- Side windows row 1 -->
+          <rect x="155" y="18" width="58" height="37" rx="5" fill="rgba(245,197,24,0.08)" stroke="rgba(245,197,24,0.22)" stroke-width="1.2"/>
+          <!-- Side windows row 2 -->
+          <rect x="85" y="18" width="65" height="37" rx="5" fill="rgba(245,197,24,0.07)" stroke="rgba(245,197,24,0.18)" stroke-width="1.2"/>
+          <!-- Small rear quarter window -->
+          <path d="M66 55 L70 20 L82 20 L82 55Z" fill="rgba(245,197,24,0.05)" stroke="rgba(245,197,24,0.15)" stroke-width="1"/>
+          <!-- Door pillars -->
+          <line x1="153" y1="58" x2="153" y2="132" stroke="#111" stroke-width="4"/>
+          <line x1="218" y1="58" x2="218" y2="132" stroke="#111" stroke-width="4"/>
+          <line x1="83" y1="58" x2="83" y2="132" stroke="#111" stroke-width="3"/>
+          <!-- Front bumper -->
+          <rect x="270" y="100" width="38" height="32" rx="8" fill="#222"/>
+          <!-- Front grille -->
+          <rect x="276" y="106" width="26" height="16" rx="3" fill="#111"/>
+          <line x1="283" y1="106" x2="283" y2="122" stroke="rgba(245,197,24,0.4)" stroke-width="1.5"/>
+          <line x1="290" y1="106" x2="290" y2="122" stroke="rgba(245,197,24,0.4)" stroke-width="1.5"/>
+          <line x1="297" y1="106" x2="297" y2="122" stroke="rgba(245,197,24,0.4)" stroke-width="1.5"/>
+          <!-- Front headlights - SUV style slim DRL -->
+          <rect x="268" y="72" width="38" height="14" rx="5" fill="#F5C518" opacity="0.9"/>
+          <rect x="268" y="70" width="38" height="5" rx="2" fill="rgba(255,255,255,0.6)" opacity="0.6"/>
+          <!-- Rear bumper -->
+          <rect x="8" y="104" width="28" height="28" rx="6" fill="#222"/>
+          <!-- Rear lights - SUV vertical style -->
+          <rect x="10" y="70" width="14" height="35" rx="4" fill="#FF3333" opacity="0.85"/>
+          <rect x="10" y="70" width="14" height="10" rx="3" fill="#FF6666" opacity="0.6"/>
+          <!-- Side skirt / body cladding -->
+          <rect x="12" y="128" width="296" height="8" rx="4" fill="#2a2a2a"/>
+          <!-- Yellow accent stripe -->
+          <rect x="12" y="90" width="296" height="4" rx="2" fill="rgba(245,197,24,0.5)"/>
+          <!-- Door handles -->
+          <rect x="100" y="96" width="38" height="7" rx="3.5" fill="rgba(245,197,24,0.35)"/>
+          <rect x="165" y="96" width="38" height="7" rx="3.5" fill="rgba(245,197,24,0.35)"/>
+          <!-- Big SUV wheels -->
+          <circle cx="85" cy="136" r="25" fill="#0d0d0d" stroke="#3a3a3a" stroke-width="2.5"/>
+          <circle cx="85" cy="136" r="16" fill="#1a1a1a" stroke="rgba(245,197,24,0.55)" stroke-width="2"/>
+          <circle cx="85" cy="136" r="7" fill="#F5C518"/>
+          <!-- Wheel spokes front -->
+          <line x1="85" y1="120" x2="85" y2="136" stroke="rgba(245,197,24,0.5)" stroke-width="2.5"/>
+          <line x1="85" y1="136" x2="85" y2="152" stroke="rgba(245,197,24,0.5)" stroke-width="2.5"/>
+          <line x1="69" y1="136" x2="101" y2="136" stroke="rgba(245,197,24,0.5)" stroke-width="2.5"/>
+          <line x1="74" y1="125" x2="96" y2="147" stroke="rgba(245,197,24,0.3)" stroke-width="2"/>
+          <line x1="96" y1="125" x2="74" y2="147" stroke="rgba(245,197,24,0.3)" stroke-width="2"/>
+          <circle cx="248" cy="136" r="25" fill="#0d0d0d" stroke="#3a3a3a" stroke-width="2.5"/>
+          <circle cx="248" cy="136" r="16" fill="#1a1a1a" stroke="rgba(245,197,24,0.55)" stroke-width="2"/>
+          <circle cx="248" cy="136" r="7" fill="#F5C518"/>
+          <!-- Wheel spokes rear -->
+          <line x1="248" y1="120" x2="248" y2="136" stroke="rgba(245,197,24,0.5)" stroke-width="2.5"/>
+          <line x1="248" y1="136" x2="248" y2="152" stroke="rgba(245,197,24,0.5)" stroke-width="2.5"/>
+          <line x1="232" y1="136" x2="264" y2="136" stroke="rgba(245,197,24,0.5)" stroke-width="2.5"/>
+          <line x1="237" y1="125" x2="259" y2="147" stroke="rgba(245,197,24,0.3)" stroke-width="2"/>
+          <line x1="259" y1="125" x2="237" y2="147" stroke="rgba(245,197,24,0.3)" stroke-width="2"/>
+        </svg>
+      </div>
+      <div class="car-info">
+        <div class="car-name">Premium SUV</div>
+        <div class="car-desc">Powerful & spacious SUV – perfect for large families, group tours & highway drives.</div>
+        <div class="car-features">
+          <div class="feat"><span class="feat-icon">👥</span> 7 Seats</div>
+          <div class="feat"><span class="feat-icon">❄️</span> AC</div>
+          <div class="feat"><span class="feat-icon">🏔️</span> 4x4 Power</div>
+          <div class="feat"><span class="feat-icon">🛡️</span> Insured</div>
+        </div>
+        <div class="car-bottom">
+          <div class="car-price">
+            <span class="num">₹15</span>
+            <span class="per">/ km</span>
+          </div>
+          <button class="book-btn" onclick="alert('Call us to book: +91-XXXXXXXXXX')">Book Now</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-section" id="how">
+  <div style="max-width:1200px;margin:0 auto;padding:0 2rem">
+    <div class="reveal" style="text-align:center;margin-bottom:0.5rem;">
+      <div class="section-tag" style="text-align:center">Process</div>
+      <div class="section-title">HOW IT WORKS</div>
+      <p class="section-sub" style="margin:0 auto">Scroll and watch your journey unfold — 4 stops, zero hassle.</p>
+    </div>
+  </div>
+
+  <div class="road-scene" id="roadScene">
+    <div class="stops-row" id="stopsRow">
+      <div class="stop-item" id="stop1">
+        <div class="step-card">
+          <div class="step-card-num">STOP 01</div>
+          <span class="step-card-icon">📱</span>
+          <h3>Choose &amp; Book</h3>
+          <p>Browse our fleet, pick 5 or 7 seater, and book online or via call instantly.</p>
+        </div>
+        <div class="stop-connector"></div>
+        <div class="stop-dot"></div>
+      </div>
+      <div class="stop-item" id="stop2">
+        <div class="step-card">
+          <div class="step-card-num">STOP 02</div>
+          <span class="step-card-icon">📄</span>
+          <h3>Verify Docs</h3>
+          <p>Show your driving licence &amp; Aadhar card. Quick 5-minute verification.</p>
+        </div>
+        <div class="stop-connector"></div>
+        <div class="stop-dot"></div>
+      </div>
+      <div class="stop-item" id="stop3">
+        <div class="step-card">
+          <div class="step-card-num">STOP 03</div>
+          <span class="step-card-icon">🔑</span>
+          <h3>Pick Up Car</h3>
+          <p>Collect at Valasaravakkam. Inspect the car, get keys and hit the road!</p>
+        </div>
+        <div class="stop-connector"></div>
+        <div class="stop-dot"></div>
+      </div>
+      <div class="stop-item" id="stop4">
+        <div class="step-card">
+          <div class="step-card-num">STOP 04</div>
+          <span class="step-card-icon">🏁</span>
+          <h3>Drive &amp; Return</h3>
+          <p>Enjoy at &#8377;15/km. Return the car, settle the bill. Simple &amp; transparent!</p>
+        </div>
+        <div class="stop-connector"></div>
+        <div class="stop-dot"></div>
+      </div>
+    </div>
+
+    <div class="road-edge-top"></div>
+    <div class="road-track" id="roadTrack">
+      <div class="road-dashes" id="roadDashes"></div>
+      <div class="road-car" id="roadCar">
+        <div class="exhaust-wrap">
+          <div class="puff"></div>
+          <div class="puff"></div>
+          <div class="puff"></div>
+        </div>
+        <svg viewBox="0 0 120 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="60" cy="52" rx="48" ry="3" fill="rgba(0,0,0,0.35)"/>
+          <rect x="4" y="26" width="112" height="24" rx="6" fill="#222"/>
+          <path d="M28 26 Q35 8 55 5 L80 5 Q98 8 102 26Z" fill="#2a2a2a"/>
+          <path d="M80 24 Q88 10 97 8 L101 8 L102 24Z" fill="rgba(245,197,24,0.13)" stroke="rgba(245,197,24,0.35)" stroke-width="1"/>
+          <path d="M28 24 L32 8 L46 8 L46 24Z" fill="rgba(245,197,24,0.1)" stroke="rgba(245,197,24,0.25)" stroke-width="0.8"/>
+          <rect x="48" y="7" width="30" height="17" rx="3" fill="rgba(245,197,24,0.1)" stroke="rgba(245,197,24,0.25)" stroke-width="0.8"/>
+          <rect x="4" y="34" width="112" height="2.5" rx="1.2" fill="rgba(245,197,24,0.55)"/>
+          <rect x="108" y="28" width="8" height="9" rx="3" fill="#F5C518" opacity="0.95"/>
+          <rect x="4" y="29" width="7" height="8" rx="2.5" fill="#FF3333" opacity="0.9"/>
+          <rect x="109" y="39" width="7" height="9" rx="2" fill="#1a1a1a"/>
+          <line x1="111" y1="39" x2="111" y2="48" stroke="rgba(245,197,24,0.4)" stroke-width="1"/>
+          <line x1="114" y1="39" x2="114" y2="48" stroke="rgba(245,197,24,0.4)" stroke-width="1"/>
+          <line x1="76" y1="26" x2="76" y2="48" stroke="rgba(255,255,255,0.05)" stroke-width="1.5"/>
+          <rect x="82" y="36" width="14" height="3" rx="1.5" fill="rgba(245,197,24,0.35)"/>
+          <rect x="48" y="36" width="14" height="3" rx="1.5" fill="rgba(245,197,24,0.35)"/>
+          <g class="wheel-spin" id="wheelFront">
+            <circle cx="92" cy="47" r="8" fill="#111" stroke="#3a3a3a" stroke-width="1.5"/>
+            <circle cx="92" cy="47" r="5" fill="#1a1a1a" stroke="rgba(245,197,24,0.6)" stroke-width="1.2"/>
+            <circle cx="92" cy="47" r="2" fill="#F5C518"/>
+            <line x1="92" y1="42" x2="92" y2="52" stroke="rgba(245,197,24,0.5)" stroke-width="1.2"/>
+            <line x1="87" y1="47" x2="97" y2="47" stroke="rgba(245,197,24,0.5)" stroke-width="1.2"/>
+          </g>
+          <g class="wheel-spin" id="wheelRear">
+            <circle cx="26" cy="47" r="8" fill="#111" stroke="#3a3a3a" stroke-width="1.5"/>
+            <circle cx="26" cy="47" r="5" fill="#1a1a1a" stroke="rgba(245,197,24,0.6)" stroke-width="1.2"/>
+            <circle cx="26" cy="47" r="2" fill="#F5C518"/>
+            <line x1="26" y1="42" x2="26" y2="52" stroke="rgba(245,197,24,0.5)" stroke-width="1.2"/>
+            <line x1="21" y1="47" x2="31" y2="47" stroke="rgba(245,197,24,0.5)" stroke-width="1.2"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+    <div class="road-edge-bottom"></div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing-section" id="pricing">
+  <div class="reveal" style="text-align:center">
+    <div class="section-tag">Pricing</div>
+    <div class="section-title">TRANSPARENT RATES</div>
+    <p class="section-sub" style="margin:0 auto">No hidden charges. Pay only for what you drive.</p>
+  </div>
+  <div class="pricing-cards">
+    <div class="price-card reveal">
+      <div class="price-seater">5 Seater</div>
+      <div class="price-name">Hatchback / Sedan</div>
+      <div class="price-amount">
+        <span class="big">₹15</span>
+        <span class="sm">/ km</span>
+      </div>
+      <ul class="price-features">
+        <li>Unlimited km packages available</li>
+        <li>AC & all amenities included</li>
+        <li>Fuel by customer</li>
+        <li>24/7 roadside support</li>
+        <li>Fully insured vehicle</li>
+      </ul>
+      <button class="price-btn ghost" onclick="alert('Call: +91-XXXXXXXXXX')">Book This Plan</button>
+    </div>
+
+    <div class="price-card featured reveal">
+      <div class="price-seater">7 Seater</div>
+      <div class="price-name">Premium SUV</div>
+      <div class="price-amount">
+        <span class="big">₹15</span>
+        <span class="sm">/ km</span>
+      </div>
+      <ul class="price-features">
+        <li>7 comfortable seats</li>
+        <li>Large luggage space</li>
+        <li>Fuel by customer</li>
+        <li>AC & entertainment system</li>
+        <li>Fully insured & GPS tracked</li>
+        <li>Ideal for family outstation trips</li>
+      </ul>
+      <button class="price-btn solid" onclick="alert('Call: +91-XXXXXXXXXX')">Book This Plan</button>
+    </div>
+
+    <div class="price-card reveal">
+      <div class="price-seater">Need Help?</div>
+      <div class="price-name">Custom Package</div>
+      <div class="price-amount">
+        <span class="big">💬</span>
+      </div>
+      <ul class="price-features">
+        <li>Weekly & monthly packages</li>
+        <li>Corporate rentals available</li>
+        <li>Group tour discounts</li>
+        <li>Outstation special rates</li>
+        <li>Flexible pickup & drop</li>
+      </ul>
+      <button class="price-btn ghost" onclick="alert('WhatsApp us for custom rates!')">Contact Us</button>
+    </div>
+  </div>
+</section>
+
+<!-- LOCATION -->
+<section class="location-section" id="location">
+  <div class="location-inner">
+    <div class="location-map reveal">
+      <div class="map-inner">
+        <div class="map-grid"></div>
+        <!-- Decorative road lines -->
+        <svg style="position:absolute;inset:0;width:100%;height:100%" viewBox="0 0 500 380">
+          <line x1="250" y1="0" x2="250" y2="380" stroke="rgba(245,197,24,0.1)" stroke-width="2" stroke-dasharray="20,10"/>
+          <line x1="0" y1="190" x2="500" y2="190" stroke="rgba(245,197,24,0.1)" stroke-width="2" stroke-dasharray="20,10"/>
+          <rect x="120" y="100" width="260" height="180" rx="4" fill="none" stroke="rgba(245,197,24,0.06)" stroke-width="1"/>
+          <text x="125" y="95" fill="rgba(245,197,24,0.25)" font-size="11" font-family="Outfit,sans-serif">Valasaravakkam</text>
+          <text x="180" y="330" fill="rgba(245,197,24,0.2)" font-size="10" font-family="Outfit,sans-serif">Chennai, Tamil Nadu</text>
+        </svg>
+        <div class="map-pin">
+          <div class="pin-dot"></div>
+          <div class="map-label">Travental</div>
+          <div class="map-sublabel">Valasaravakkam, Chennai</div>
+        </div>
+      </div>
+    </div>
+    <div class="location-info reveal">
+      <div class="section-tag">Find Us</div>
+      <div class="section-title">WE'RE IN<br>VALASARAVAKKAM</div>
+      <p class="section-sub">Conveniently located in the heart of Valasaravakkam, Chennai. Easy access from all major areas.</p>
+      <div class="location-details">
+        <div class="loc-item">
+          <div class="loc-icon">📍</div>
+          <div class="loc-text">
+            <h4>Address</h4>
+            <p>Valasaravakkam, Chennai – 600087, Tamil Nadu, India</p>
+          </div>
+        </div>
+        <div class="loc-item">
+          <div class="loc-icon">⏰</div>
+          <div class="loc-text">
+            <h4>Operating Hours</h4>
+            <p>Mon–Sun: 7:00 AM – 9:00 PM<br>24/7 Emergency Support Available</p>
+          </div>
+        </div>
+        <div class="loc-item">
+          <div class="loc-icon">📞</div>
+          <div class="loc-text">
+            <h4>Contact</h4>
+            <p>Call or WhatsApp us to book your ride instantly</p>
+          </div>
+        </div>
+        <div class="loc-item">
+          <div class="loc-icon">🗺️</div>
+          <div class="loc-text">
+            <h4>Nearby Landmarks</h4>
+            <p>Near Arcot Road, close to Porur Junction & Vadapalani</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+
+  <div class="test-header reveal">
+    <div class="section-tag">Reviews</div>
+    <div class="section-title">WHAT CUSTOMERS SAY</div>
+    <div class="test-overall">
+      <span class="test-overall-stars">★★★★★</span>
+      <span class="test-overall-label">4.9 / 5 &nbsp;·&nbsp; 500+ Happy Riders</span>
+    </div>
+  </div>
+
+  <div class="slider-outer">
+    <button class="slider-arrow prev" id="sliderPrev" aria-label="Previous">&#8592;</button>
+
+    <div class="slider-track-wrap" id="sliderWrap">
+      <div class="slider-track" id="sliderTrack">
+
+        <div class="tcard" data-idx="0">
+          <span class="tcard-tag">5 Seater Sedan</span>
+          <span class="tcard-quote">&ldquo;</span>
+          <div class="tcard-stars"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+          <p class="tcard-text">Amazing service! Booked the sedan for our anniversary trip to ECR. The car was spotless and ₹15/km made it so affordable. The booking process was super fast — just 10 minutes and we were on the road!</p>
+          <div class="tcard-author">
+            <div class="tcard-avatar">RK</div>
+            <div>
+              <div class="tcard-name">Ramesh Kumar</div>
+              <div class="tcard-loc">Valasaravakkam, Chennai</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tcard" data-idx="1">
+          <span class="tcard-tag">7 Seater SUV</span>
+          <span class="tcard-quote">&ldquo;</span>
+          <div class="tcard-stars"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+          <p class="tcard-text">Took the 7-seater SUV for a family trip to Mahabalipuram — all 7 of us fit perfectly! Well-maintained, great AC, and Travental's transparent pricing is truly unbeatable in Chennai.</p>
+          <div class="tcard-author">
+            <div class="tcard-avatar">PM</div>
+            <div>
+              <div class="tcard-name">Priya Meenakshi</div>
+              <div class="tcard-loc">Porur, Chennai</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tcard" data-idx="2">
+          <span class="tcard-tag">Office Trip</span>
+          <span class="tcard-quote">&ldquo;</span>
+          <div class="tcard-stars"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+          <p class="tcard-text">Used Travental for our office team outing. The 7-seater SUV was perfect and well maintained. Staff was extremely helpful and the whole experience was seamless. Highly recommend!</p>
+          <div class="tcard-author">
+            <div class="tcard-avatar">SK</div>
+            <div>
+              <div class="tcard-name">Suresh Krishnan</div>
+              <div class="tcard-loc">Vadapalani, Chennai</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tcard" data-idx="3">
+          <span class="tcard-tag">Weekend Drive</span>
+          <span class="tcard-quote">&ldquo;</span>
+          <div class="tcard-stars"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+          <p class="tcard-text">Rented the hatchback for a solo weekend drive to Pondicherry. So liberating to drive on your own schedule! Travental's self-drive concept is brilliant. Already booked again for next month!</p>
+          <div class="tcard-author">
+            <div class="tcard-avatar">AJ</div>
+            <div>
+              <div class="tcard-name">Arun Jayaram</div>
+              <div class="tcard-loc">Virugambakkam, Chennai</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tcard" data-idx="4">
+          <span class="tcard-tag">Long Drive</span>
+          <span class="tcard-quote">&ldquo;</span>
+          <div class="tcard-stars"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+          <p class="tcard-text">Booked a sedan for 3 days for our Ooty road trip. Verification was instant, car was fuel-efficient, and 24/7 support gave us total peace of mind through the mountains. 10/10 experience!</p>
+          <div class="tcard-author">
+            <div class="tcard-avatar">DN</div>
+            <div>
+              <div class="tcard-name">Divya Nair</div>
+              <div class="tcard-loc">Anna Nagar, Chennai</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <button class="slider-arrow next" id="sliderNext" aria-label="Next">&#8594;</button>
+  </div>
+
+  <div class="slider-dots" id="sliderDots"></div>
+  <div class="slider-progress"><div class="slider-progress-fill" id="sliderProgress"></div></div>
+
+  <div class="test-ticker">
+    <div class="ticker-inner">
+      <div class="ticker-item">⭐ <span>Ramesh K.</span> — "Best rental in Chennai!"</div>
+      <div class="ticker-item">⭐ <span>Priya M.</span> — "Unbeatable ₹15/km rate"</div>
+      <div class="ticker-item">⭐ <span>Suresh K.</span> — "Perfect for family trips"</div>
+      <div class="ticker-item">⭐ <span>Arun J.</span> — "Solo drive was a dream"</div>
+      <div class="ticker-item">⭐ <span>Divya N.</span> — "Ooty trip was amazing!"</div>
+      <div class="ticker-item">⭐ <span>Karthik R.</span> — "Super clean cars always"</div>
+      <div class="ticker-item">⭐ <span>Ramesh K.</span> — "Best rental in Chennai!"</div>
+      <div class="ticker-item">⭐ <span>Priya M.</span> — "Unbeatable ₹15/km rate"</div>
+      <div class="ticker-item">⭐ <span>Suresh K.</span> — "Perfect for family trips"</div>
+      <div class="ticker-item">⭐ <span>Arun J.</span> — "Solo drive was a dream"</div>
+      <div class="ticker-item">⭐ <span>Divya N.</span> — "Ooty trip was amazing!"</div>
+      <div class="ticker-item">⭐ <span>Karthik R.</span> — "Super clean cars always"</div>
+    </div>
+  </div>
+
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="reveal">
+    <div class="section-tag" style="text-align:center">Ready To Go?</div>
+    <div class="section-title">START YOUR JOURNEY<br>TODAY</div>
+    <p class="section-sub">Drive your way across Chennai and beyond with Travental's affordable self-drive cars.</p>
+    <div class="cta-btns">
+      <a href="tel:+91XXXXXXXXXX" class="btn-primary"><span>📞 Call to Book</span></a>
+      <a href="https://wa.me/91XXXXXXXXXX" class="btn-outline">💬 WhatsApp Us</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo">TRAVE<span style="color:var(--text)">NTAL</span></div>
+      <p>Chennai's trusted self-drive car rental service. Drive freely, drive affordably. Located at Valasaravakkam, serving all of Chennai.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#cars">Our Fleet</a></li>
+        <li><a href="#how">How It Works</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Car Types</h4>
+      <ul>
+        <li><a href="#">5 Seater Hatchback</a></li>
+        <li><a href="#">5 Seater Sedan</a></li>
+        <li><a href="#">7 Seater SUV</a></li>
+        <li><a href="#">Custom Packages</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="#">Valasaravakkam, Chennai</a></li>
+        <li><a href="tel:+91XXXXXXXXXX">+91 XXXXXXXXXX</a></li>
+        <li><a href="#">Mon–Sun: 7AM–9PM</a></li>
+        <li><a href="#">24/7 Support</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Travental. All rights reserved. Self Drive Car Rental, Valasaravakkam, Chennai.</p>
+    <p>Made with ❤️ in Chennai</p>
+  </div>
+</footer>
+
+<!-- WhatsApp Float -->
+<a href="https://wa.me/91XXXXXXXXXX" class="whatsapp-float" title="Chat on WhatsApp">💬</a>
+
+<script>
+  // Cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+  function animCursor() {
+    cursor.style.left = mx - 6 + 'px';
+    cursor.style.top = my - 6 + 'px';
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.left = rx - 18 + 'px';
+    ring.style.top = ry - 18 + 'px';
+    requestAnimationFrame(animCursor);
+  }
+  animCursor();
+
+  document.querySelectorAll('a, button').forEach(el => {
+    el.addEventListener('mouseenter', () => { cursor.style.transform = 'scale(2)'; ring.style.transform = 'scale(1.5)'; });
+    el.addEventListener('mouseleave', () => { cursor.style.transform = 'scale(1)'; ring.style.transform = 'scale(1)'; });
+  });
+
+  // Scroll Reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(r => observer.observe(r));
+
+  // Counter animation in stats bar
+  function animateCount(el, end, prefix = '') {
+    let start = 0;
+    const step = end / 50;
+    const timer = setInterval(() => {
+      start += step;
+      if (start >= end) { el.textContent = prefix + end + (el.dataset.suffix || ''); clearInterval(timer); return; }
+      el.textContent = prefix + Math.floor(start) + (el.dataset.suffix || '');
+    }, 20);
+  }
+
+  // ============ ROAD ANIMATION ============
+  (function() {
+    const scene = document.getElementById('roadScene');
+    if (!scene) return;
+
+    const car = document.getElementById('roadCar');
+    const dashes = document.getElementById('roadDashes');
+    const stops = [
+      document.getElementById('stop1'),
+      document.getElementById('stop2'),
+      document.getElementById('stop3'),
+      document.getElementById('stop4'),
+    ];
+
+    let animated = false;
+    let currentStop = -1;
+
+    // Calculate target X positions for each stop (center of each stop item)
+    function getStopPositions() {
+      const track = document.getElementById('roadTrack');
+      const trackRect = track.getBoundingClientRect();
+      return stops.map(s => {
+        const r = s.getBoundingClientRect();
+        // center of the stop relative to track's left
+        return (r.left + r.width / 2) - trackRect.left - 55; // 55 = half car width
+      });
+    }
+
+    function moveCar(targetX, speed, onDone) {
+      car.style.transition = `left ${speed}s cubic-bezier(0.45,0,0.2,1)`;
+      car.style.left = targetX + 'px';
+      setTimeout(onDone, speed * 1000);
+    }
+
+    function pauseCar() {
+      // slow wheels
+      document.querySelectorAll('.wheel-spin').forEach(w => w.style.animationDuration = '0.9s');
+      dashes.style.animationDuration = '2.5s';
+    }
+
+    function driveCar() {
+      document.querySelectorAll('.wheel-spin').forEach(w => w.style.animationDuration = '0.3s');
+      dashes.style.animationDuration = '0.9s';
+    }
+
+    function stopCar() {
+      document.querySelectorAll('.wheel-spin').forEach(w => w.style.animationPlayState = 'paused');
+      dashes.style.animationPlayState = 'paused';
+    }
+
+    function resumeCar() {
+      document.querySelectorAll('.wheel-spin').forEach(w => w.style.animationPlayState = 'running');
+      dashes.style.animationPlayState = 'running';
+    }
+
+    function runSequence() {
+      if (animated) return;
+      animated = true;
+
+      const positions = getStopPositions();
+
+      // Start car from off-screen left
+      car.style.transition = 'none';
+      car.style.left = '-130px';
+
+      function goToStop(idx) {
+        if (idx >= stops.length) {
+          // Drive off screen after last stop
+          setTimeout(() => {
+            driveCar();
+            moveCar(window.innerWidth + 50, 2.5, () => {});
+          }, 1200);
+          return;
+        }
+
+        driveCar();
+
+        // Move to stop position
+        moveCar(positions[idx], idx === 0 ? 1.4 : 1.2, () => {
+          // Arrive at stop
+          pauseCar();
+          stops[idx].classList.add('active');
+          currentStop = idx;
+
+          // Wait at stop, then continue
+          setTimeout(() => {
+            goToStop(idx + 1);
+          }, 1600);
+        });
+      }
+
+      // Small delay before starting
+      setTimeout(() => goToStop(0), 300);
+    }
+
+    // IntersectionObserver to trigger when road is in view
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting && !animated) {
+          runSequence();
+          observer.disconnect();
+        }
+      });
+    }, { threshold: 0.3 });
+
+    observer.observe(scene);
+  })();
+
+
+
+
+  // ============ TESTIMONIALS SLIDER ============
+  (function() {
+    const track    = document.getElementById('sliderTrack');
+    const wrap     = document.getElementById('sliderWrap');
+    const dotsCont = document.getElementById('sliderDots');
+    const progFill = document.getElementById('sliderProgress');
+    if (!track) return;
+
+    const cards    = Array.from(track.querySelectorAll('.tcard'));
+    const total    = cards.length;
+    let current    = 1;
+    const AUTO_MS  = 3800;
+    let autoTimer  = null;
+
+    // Build dots
+    cards.forEach((_, i) => {
+      const d = document.createElement('button');
+      d.className = 'sdot' + (i === current ? ' active' : '');
+      d.setAttribute('aria-label', 'Go to slide ' + (i+1));
+      d.addEventListener('click', () => { goTo(i); resetAuto(); });
+      dotsCont.appendChild(d);
+    });
+
+    function cardWidth() {
+      return cards[0].getBoundingClientRect().width + 24;
+    }
+
+    function updateSlider(animate) {
+      const cw   = cardWidth();
+      const ww   = wrap.getBoundingClientRect().width;
+      const off  = -(current * cw) + (ww / 2) - (cw / 2);
+      track.style.transition = animate ? 'transform 0.65s cubic-bezier(0.4,0,0.2,1)' : 'none';
+      track.style.transform  = 'translateX(' + off + 'px)';
+      cards.forEach((c, i) => c.classList.toggle('center', i === current));
+      dotsCont.querySelectorAll('.sdot').forEach((d, i) => d.classList.toggle('active', i === current));
+    }
+
+    function goTo(idx) {
+      current = ((idx % total) + total) % total;
+      updateSlider(true);
+      resetProgress();
+    }
+
+    function next() { goTo(current + 1); }
+    function prev() { goTo(current - 1); }
+
+    document.getElementById('sliderNext').addEventListener('click', () => { next(); resetAuto(); });
+    document.getElementById('sliderPrev').addEventListener('click', () => { prev(); resetAuto(); });
+
+    // Progress bar
+    function resetProgress() {
+      progFill.style.transition = 'none';
+      progFill.style.width = '0%';
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        progFill.style.transition = 'width ' + AUTO_MS + 'ms linear';
+        progFill.style.width = '100%';
+      }));
+    }
+
+    function startAuto() {
+      clearInterval(autoTimer);
+      autoTimer = setInterval(next, AUTO_MS);
+      resetProgress();
+    }
+    function resetAuto() { clearInterval(autoTimer); startAuto(); }
+
+    // Drag / swipe
+    let dragX = null, moved = false;
+    wrap.addEventListener('mousedown',  e => { dragX = e.clientX; moved = false; });
+    wrap.addEventListener('mousemove',  e => { if (dragX !== null) moved = true; });
+    wrap.addEventListener('mouseup',    e => {
+      if (moved) { (e.clientX - dragX < -60) ? next() : (e.clientX - dragX > 60) ? prev() : null; resetAuto(); }
+      dragX = null; moved = false;
+    });
+    wrap.addEventListener('mouseleave', () => { dragX = null; moved = false; });
+    wrap.addEventListener('touchstart', e => { dragX = e.touches[0].clientX; }, { passive: true });
+    wrap.addEventListener('touchend',   e => {
+      const d = e.changedTouches[0].clientX - dragX;
+      if (d < -60) next(); else if (d > 60) prev();
+      resetAuto(); dragX = null;
+    });
+
+    // Pause on hover
+    wrap.addEventListener('mouseenter', () => clearInterval(autoTimer));
+    wrap.addEventListener('mouseleave', () => { clearInterval(autoTimer); autoTimer = setInterval(next, AUTO_MS); });
+
+    // Init
+    updateSlider(false);
+    startAuto();
+    window.addEventListener('resize', () => updateSlider(false));
+  })();
+
+
+  // ═══════════════════════════════════════════════
+  //  HERO CAR — Animated Canvas
+  // ═══════════════════════════════════════════════
+  (function(){
+    const canvas = document.getElementById('heroCarCanvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const W = 800, H = 380;
+
+    // ── Smoke particles ──────────────────────────
+    const smokes = [];
+    function addSmoke() {
+      // Exhaust pipe is at the back-left of the car (around x=108, y=298)
+      smokes.push({
+        x: 108,
+        y: 298 + (Math.random() - 0.5) * 8,
+        r: 6 + Math.random() * 6,
+        vx: -(1.5 + Math.random() * 2.5),
+        vy: -(0.3 + Math.random() * 0.8),
+        life: 1,
+        decay: 0.012 + Math.random() * 0.01,
+        grey: Math.floor(120 + Math.random() * 80)
+      });
+    }
+
+    // ── Wheel angle ───────────────────────────────
+    let wheelAngle = 0;
+    const WHEEL_SPEED = 0.09; // radians per frame
+
+    // ── Float bob ─────────────────────────────────
+    let t = 0;
+
+    // ── Headlight pulse ───────────────────────────
+    let hlPulse = 0;
+
+    // ── Speed lines ───────────────────────────────
+    const speedLines = [];
+    for (let i = 0; i < 8; i++) {
+      speedLines.push({
+        x: 20 + Math.random() * 120,
+        y: 190 + Math.random() * 100,
+        len: 30 + Math.random() * 60,
+        speed: 4 + Math.random() * 4,
+        alpha: 0.1 + Math.random() * 0.25
+      });
+    }
+
+    // ──────────────────────────────────────────────
+    //  DRAW helpers
+    // ──────────────────────────────────────────────
+    function roundRect(x, y, w, h, r, fill, stroke, sw) {
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.lineTo(x + w - r, y);
+      ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+      ctx.lineTo(x + w, y + h - r);
+      ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+      ctx.lineTo(x + r, y + h);
+      ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+      ctx.lineTo(x, y + r);
+      ctx.quadraticCurveTo(x, y, x + r, y);
+      ctx.closePath();
+      if (fill)  { ctx.fillStyle = fill; ctx.fill(); }
+      if (stroke){ ctx.strokeStyle = stroke; ctx.lineWidth = sw||1; ctx.stroke(); }
+    }
+
+    function drawWheel(cx, cy, angle) {
+      const RO = 52, RM = 36, RI = 14;
+      // Tyre
+      ctx.beginPath(); ctx.arc(cx, cy, RO, 0, Math.PI*2);
+      ctx.fillStyle = '#111'; ctx.fill();
+      ctx.strokeStyle = '#444'; ctx.lineWidth = 3; ctx.stroke();
+      // Rim ring
+      ctx.beginPath(); ctx.arc(cx, cy, RM, 0, Math.PI*2);
+      ctx.fillStyle = '#1e1e1e'; ctx.fill();
+      ctx.strokeStyle = 'rgba(245,197,24,0.5)'; ctx.lineWidth = 2.5; ctx.stroke();
+      // Spokes (5 spokes, rotate with angle)
+      ctx.save(); ctx.translate(cx, cy); ctx.rotate(angle);
+      for (let s = 0; s < 5; s++) {
+        const a = (s / 5) * Math.PI * 2;
+        ctx.beginPath();
+        ctx.moveTo(Math.cos(a) * 6, Math.sin(a) * 6);
+        ctx.lineTo(Math.cos(a) * (RM - 4), Math.sin(a) * (RM - 4));
+        ctx.strokeStyle = 'rgba(245,197,24,0.75)'; ctx.lineWidth = 3.5;
+        ctx.lineCap = 'round'; ctx.stroke();
+      }
+      ctx.restore();
+      // Hub cap
+      ctx.beginPath(); ctx.arc(cx, cy, RI, 0, Math.PI*2);
+      ctx.fillStyle = '#F5C518'; ctx.fill();
+      // Hub dot
+      ctx.beginPath(); ctx.arc(cx, cy, 5, 0, Math.PI*2);
+      ctx.fillStyle = '#0A0A0A'; ctx.fill();
+    }
+
+    function drawCar(bobY) {
+      const bY = bobY; // vertical offset for float
+
+      // ── Ground shadow ─────────────────────────
+      const shadowAlpha = 0.18 + Math.sin(t * 0.8) * 0.04;
+      const grd = ctx.createRadialGradient(400, 340 + bY*0.3, 10, 400, 340 + bY*0.3, 310);
+      grd.addColorStop(0, `rgba(245,197,24,${shadowAlpha})`);
+      grd.addColorStop(1, 'transparent');
+      ctx.beginPath(); ctx.ellipse(400, 338 + bY*0.3, 305, 16, 0, 0, Math.PI*2);
+      ctx.fillStyle = grd; ctx.fill();
+
+      // ── Ground road strip ─────────────────────
+      ctx.fillStyle = 'rgba(30,30,30,0.4)';
+      ctx.beginPath(); ctx.ellipse(400, 345 + bY*0.3, 290, 8, 0, 0, Math.PI*2);
+      ctx.fill();
+
+      // ── Speed lines (left side) ───────────────
+      speedLines.forEach(sl => {
+        sl.x -= sl.speed;
+        if (sl.x + sl.len < 0) sl.x = 170 + Math.random() * 40;
+        ctx.beginPath();
+        ctx.moveTo(sl.x + sl.len, sl.y + bY);
+        ctx.lineTo(sl.x, sl.y + bY);
+        const lg = ctx.createLinearGradient(sl.x, 0, sl.x + sl.len, 0);
+        lg.addColorStop(0, 'transparent');
+        lg.addColorStop(1, `rgba(245,197,24,${sl.alpha})`);
+        ctx.strokeStyle = lg; ctx.lineWidth = 1.5; ctx.stroke();
+      });
+
+      // ── Car Body ──────────────────────────────
+      roundRect(80, 182 + bY, 638, 118, 20, '#1c1c1c', '#2a2a2a', 1.5);
+
+      // Body shine top edge
+      const bodyShine = ctx.createLinearGradient(80, 182 + bY, 80, 200 + bY);
+      bodyShine.addColorStop(0, 'rgba(255,255,255,0.06)');
+      bodyShine.addColorStop(1, 'transparent');
+      roundRect(80, 182 + bY, 638, 18, 20, bodyShine, null, 0);
+
+      // ── Roof ──────────────────────────────────
+      ctx.beginPath();
+      ctx.moveTo(220, 182 + bY);
+      ctx.quadraticCurveTo(258, 102 + bY, 348, 86 + bY);
+      ctx.lineTo(500, 86 + bY);
+      ctx.quadraticCurveTo(590, 89 + bY, 600, 182 + bY);
+      ctx.closePath();
+      ctx.fillStyle = '#252525'; ctx.fill();
+      ctx.strokeStyle = 'rgba(255,255,255,0.04)'; ctx.lineWidth = 1; ctx.stroke();
+
+      // ── Windshield ────────────────────────────
+      ctx.beginPath();
+      ctx.moveTo(262, 178 + bY);
+      ctx.quadraticCurveTo(284, 112 + bY, 360, 96 + bY);
+      ctx.lineTo(440, 96 + bY);
+      ctx.quadraticCurveTo(492, 102 + bY, 520, 178 + bY);
+      ctx.closePath();
+      const wsGrd = ctx.createLinearGradient(360, 96 + bY, 390, 178 + bY);
+      wsGrd.addColorStop(0, 'rgba(245,197,24,0.18)');
+      wsGrd.addColorStop(1, 'rgba(245,197,24,0.05)');
+      ctx.fillStyle = wsGrd; ctx.fill();
+      ctx.strokeStyle = 'rgba(245,197,24,0.3)'; ctx.lineWidth = 1.5; ctx.stroke();
+
+      // Windshield reflection streak
+      ctx.save();
+      ctx.clip();
+      ctx.beginPath();
+      ctx.moveTo(290, 100 + bY); ctx.lineTo(310, 100 + bY);
+      ctx.lineTo(290, 175 + bY); ctx.lineTo(270, 175 + bY);
+      ctx.fillStyle = 'rgba(255,255,255,0.05)'; ctx.fill();
+      ctx.restore();
+
+      // ── Rear window ───────────────────────────
+      ctx.beginPath();
+      ctx.moveTo(222, 178 + bY);
+      ctx.quadraticCurveTo(234, 132 + bY, 278, 112 + bY);
+      ctx.lineTo(338, 112 + bY); ctx.lineTo(338, 178 + bY); ctx.closePath();
+      ctx.fillStyle = 'rgba(245,197,24,0.08)'; ctx.fill();
+      ctx.strokeStyle = 'rgba(245,197,24,0.18)'; ctx.lineWidth = 1.2; ctx.stroke();
+
+      // ── Side window ───────────────────────────
+      roundRect(345, 106 + bY, 112, 70, 8, 'rgba(245,197,24,0.09)', 'rgba(245,197,24,0.22)', 1.5);
+
+      // ── Door lines ────────────────────────────
+      ctx.strokeStyle = 'rgba(255,255,255,0.04)'; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(380, 183 + bY); ctx.lineTo(380, 295 + bY); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(500, 183 + bY); ctx.lineTo(500, 295 + bY); ctx.stroke();
+
+      // ── Door handles ─────────────────────────
+      roundRect(310, 242 + bY, 50, 8, 4, 'rgba(245,197,24,0.3)', null, 0);
+      roundRect(430, 242 + bY, 50, 8, 4, 'rgba(245,197,24,0.3)', null, 0);
+
+      // ── Racing stripe ─────────────────────────
+      roundRect(80, 224 + bY, 638, 5, 2, 'rgba(245,197,24,0.65)', null, 0);
+
+      // ── Lower body cladding ───────────────────
+      roundRect(80, 285 + bY, 638, 12, 4, '#1a1a1a', '#2a2a2a', 1);
+
+      // ── Front headlight ───────────────────────
+      hlPulse += 0.06;
+      const hlA = 0.7 + Math.sin(hlPulse) * 0.3;
+      // Beam cone
+      ctx.save();
+      const beamGrd = ctx.createRadialGradient(720, 225 + bY, 5, 800, 230 + bY, 180);
+      beamGrd.addColorStop(0, `rgba(245,197,24,${0.18 * hlA})`);
+      beamGrd.addColorStop(1, 'transparent');
+      ctx.beginPath();
+      ctx.moveTo(718, 214 + bY);
+      ctx.lineTo(800, 160 + bY);
+      ctx.lineTo(800, 280 + bY);
+      ctx.closePath();
+      ctx.fillStyle = beamGrd; ctx.fill();
+      ctx.restore();
+      // Headlight body
+      roundRect(690, 210 + bY, 32, 28, 8, `rgba(245,197,24,${hlA})`, 'rgba(255,255,180,0.6)', 1);
+      // DRL strip
+      roundRect(690, 208 + bY, 32, 5, 2, `rgba(255,255,255,${0.5 * hlA})`, null, 0);
+
+      // ── Rear lights ───────────────────────────
+      const rlA = 0.7 + Math.sin(t * 1.5) * 0.25;
+      roundRect(80, 214 + bY, 22, 25, 6, `rgba(255,50,50,${rlA})`, null, 0);
+      // Rear light glow
+      const rlGlow = ctx.createRadialGradient(80, 226 + bY, 2, 60, 226 + bY, 40);
+      rlGlow.addColorStop(0, `rgba(255,0,0,${0.15 * rlA})`);
+      rlGlow.addColorStop(1, 'transparent');
+      ctx.beginPath(); ctx.ellipse(72, 226 + bY, 30, 20, 0, 0, Math.PI*2);
+      ctx.fillStyle = rlGlow; ctx.fill();
+
+      // ── Grille ────────────────────────────────
+      roundRect(695, 272 + bY, 50, 20, 6, '#1e1e1e', '#333', 1);
+      for (let g = 0; g < 3; g++) {
+        ctx.beginPath();
+        ctx.moveTo(708 + g*12, 272 + bY); ctx.lineTo(708 + g*12, 292 + bY);
+        ctx.strokeStyle = 'rgba(245,197,24,0.35)'; ctx.lineWidth = 1.5; ctx.stroke();
+      }
+
+      // ── Exhaust pipe ─────────────────────────
+      roundRect(84, 293 + bY, 28, 8, 4, '#333', '#444', 1);
+      roundRect(86, 294 + bY, 24, 6, 3, '#222', null, 0);
+
+      // ── Wheels ────────────────────────────────
+      drawWheel(210, 300 + bY, wheelAngle);
+      drawWheel(590, 300 + bY, wheelAngle);
+
+      // ── Wheel well arches ─────────────────────
+      ctx.beginPath(); ctx.arc(210, 298 + bY, 60, Math.PI, 0); 
+      ctx.strokeStyle = '#2a2a2a'; ctx.lineWidth = 4; ctx.stroke();
+      ctx.beginPath(); ctx.arc(590, 298 + bY, 60, Math.PI, 0);
+      ctx.strokeStyle = '#2a2a2a'; ctx.lineWidth = 4; ctx.stroke();
+    }
+
+    // ──────────────────────────────────────────────
+    //  SMOKE particles draw
+    // ──────────────────────────────────────────────
+    function drawSmokes(bobY) {
+      smokes.forEach((s, i) => {
+        s.x += s.vx;
+        s.y += s.vy + bobY * 0.01;
+        s.r += 0.35;
+        s.life -= s.decay;
+        if (s.life <= 0) { smokes.splice(i, 1); return; }
+        const alpha = s.life * 0.55;
+        const sGrd = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, s.r);
+        sGrd.addColorStop(0, `rgba(${s.grey},${s.grey},${s.grey},${alpha})`);
+        sGrd.addColorStop(0.5, `rgba(${s.grey-20},${s.grey-20},${s.grey-20},${alpha * 0.5})`);
+        sGrd.addColorStop(1, 'transparent');
+        ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+        ctx.fillStyle = sGrd; ctx.fill();
+      });
+    }
+
+    // ──────────────────────────────────────────────
+    //  MAIN LOOP
+    // ──────────────────────────────────────────────
+    let smokeTimer = 0;
+    function loop() {
+      ctx.clearRect(0, 0, W, H);
+
+      t += 0.016;
+      wheelAngle += WHEEL_SPEED;
+
+      // Float bob
+      const bobY = Math.sin(t * 0.9) * 7;
+
+      // Spawn smoke every ~3 frames from exhaust
+      smokeTimer++;
+      if (smokeTimer % 3 === 0) addSmoke();
+
+      // Draw back-to-front
+      drawSmokes(bobY);
+      drawCar(bobY);
+
+      requestAnimationFrame(loop);
+    }
+
+    loop();
+  })();
+
+</script>
+</body>
+</html>
